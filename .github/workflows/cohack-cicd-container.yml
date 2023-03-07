@@ -1,0 +1,82 @@
+name: cohack-cicd-container
+
+env:
+  AZURE_LOCATION: westeurope
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - '.github/workflows/cohack-cicd-container.yml'
+  workflow_dispatch:
+
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+  deployAcr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: azure/arm-deploy@v1
+        id: deployStep
+        with:
+          scope: subscription
+          template: infra/azure-container/acr-main.bicep
+          deploymentName: coHackAcrDeployment${{github.run_number}}
+          region: ${{ env.AZURE_LOCATION }}
+          parameters: runNumber=${{github.run_number}}
+      - name: Get ACR Login Credentials
+        run: |
+          echo "ACR_USERNAME=${{ steps.deployStep.outputs.acrUsername }}" >> $GITHUB_ENV
+          echo "ACR_PASS=$(az acr credential show -n ${{ steps.deployStep.outputs.acrUsername }} --query passwords[0].value)" >> $GITHUB_ENV
+    outputs:
+      ACR_USERNAME: ${{ env.ACR_USERNAME }}
+      ACR_PASS: ${{ env.ACR_PASS }}
+
+  buildAndPushContainer:
+    runs-on: ubuntu-latest
+    needs: deployAcr
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}      
+      - name: Build and push image
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 10
+          retry_wait_seconds: 30
+          command: az acr build --image cohackapp:${{ github.run_number }} --registry ${{ needs.deployAcr.outputs.ACR_USERNAME }} -f src/Dockerfile ./src
+  
+  deployAci:
+    runs-on: ubuntu-latest
+    needs: [deployAcr, buildAndPushContainer]
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: azure/arm-deploy@v1
+        id: deployStep
+        with:
+          scope: subscription
+          template: infra/azure-container/aci-main.bicep
+          deploymentName: coHackAciDeployment${{github.run_number}}
+          region: ${{ env.AZURE_LOCATION }}
+          parameters: runNumber=${{github.run_number}} image=${{ needs.deployAcr.outputs.ACR_USERNAME }}.azurecr.io/cohackapp:${{github.run_number}} acrUsername=${{ needs.deployAcr.outputs.ACR_Username }} acrPass=${{ needs.deployAcr.outputs.ACR_PASS }}
