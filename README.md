@@ -25,8 +25,16 @@ This hack will help you learn:
 ### Challenge 1
 
 - All team members have access to an organization with the right role as part of a team
-- All team members have access to a repository that contains the [CoHack App](https://github.com/fimdim/cohack-devops)
+- All team members have access to a repository that contains the [CoHack App](/src)
 - Build and deploy the CoHack App to Microsoft Azure
+
+#### Resources
+
+- [Repository roles for an organization](https://docs.github.com/organizations/managing-user-access-to-your-organizations-repositories/repository-roles-for-an-organization)
+- [Fork a repository](https://docs.github.com/get-started/quickstart/fork-a-repo)
+- [Understanding GitHub Actions](https://docs.github.com/actions/learn-github-actions/understanding-github-actions)
+- [Configuring OpenID Connect in Azure](https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-azure)
+- [Configure a federated identity credential on an app - GitHub Actions](https://learn.microsoft.com/azure/active-directory/develop/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp#github-actions)
 
 ### [Optional] Challenge 2
 
@@ -34,15 +42,14 @@ This hack will help you learn:
 
 ![CoHack App - Home Page](/images/CoHackApp-HomePage.jpg)
 
+#### Resources
+
+- [Creating a pull request from a fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+
 ### [Optional] Challenge 3
 
 - Build and deploy the [**containerized** CoHack App](/src/Dockerfile) to Microsoft Azure
 
-## Resources
+#### Resources
 
-- [Repository roles for an organization](https://docs.github.com/organizations/managing-user-access-to-your-organizations-repositories/repository-roles-for-an-organization)
-- [Fork a repository](https://docs.github.com/get-started/quickstart/fork-a-repo)
-- [Understanding GitHub Actions](https://docs.github.com/actions/learn-github-actions/understanding-github-actions)
-- [Configuring OpenID Connect in Azure](https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-azure)
-- [Configure a federated identity credential on an app - GitHub Actions](https://learn.microsoft.com/azure/active-directory/develop/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp#github-actions)
-- [Creating a pull request from a fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+[Configure a GitHub Action to create a container instance](https://learn.microsoft.com/azure/container-instances/container-instances-github-action?tabs=openid)
