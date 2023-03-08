@@ -52,4 +52,4 @@ This hack will help you learn:
 
 #### Resources
 
-[Configure a GitHub Action to create a container instance](https://learn.microsoft.com/azure/container-instances/container-instances-github-action?tabs=openid)
+- [Configure a GitHub Action to create a container instance](https://learn.microsoft.com/azure/container-instances/container-instances-github-action?tabs=openid)
