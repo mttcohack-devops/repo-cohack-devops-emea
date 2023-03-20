@@ -2,12 +2,15 @@
 
 ## Introduction
 
-In this challenge-based hackathon, we will work together to explore and implement fundamental DevOps practices. Our goal is to effectively manage code, automate infrastructure deployment, and streamline application delivery. Through collaboration, we will have the opportunity to work with a range of tools and technologies.
+In this challenge-based hackathon, we will work together to explore and **implement fundamental DevOps practices**.
+
+Our goal is to effectively **manage code**, **automate infrastructure deployment**, and **streamline application delivery**. Through collaboration, we will have the opportunity to work with a range of tools and technologies.
+
 By the end of the hackathon, we will have developed a deeper understanding of DevOps practices and be equipped with practical skills that we can apply to our own projects and organizations.
 
 ## Requirements
 
-- A [GitHub account](https://github.com/signup) per team member
+- A [GitHub account](https://github.com/signup) per team **member (!)**
 - A [Microsoft Azure Subscription](http://portal.azure.com/) per team
 
 ## Learning Objectives
